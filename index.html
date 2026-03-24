@@ -7,277 +7,113 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: #0d1b26;
-  color: #dce8f0;
-  min-height: 100vh;
-  padding: 2rem 1.25rem 3rem;
-  display: flex;
-  justify-content: center;
-}
+body { font-family: 'DM Sans', sans-serif; background: #0d1b26; color: #dce8f0; min-height: 100vh; padding: 2rem 1.25rem 3rem; display: flex; justify-content: center; }
 .wrap { width: 100%; max-width: 420px; }
-
-.title-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 2px;
-}
-h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 38px;
-  letter-spacing: 4px;
-  color: #fff;
-}
+.title-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2px; }
+h1 { font-family: 'Bebas Neue', sans-serif; font-size: 38px; letter-spacing: 4px; color: #fff; }
 .settings-btn {
-  background: none;
-  border: 1px solid #2e3d4f;
-  color: #4a6070;
-  font-size: 18px;
-  width: 36px; height: 36px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  margin-top: 4px;
-  transition: border-color .15s, color .15s;
-  position: relative;
-  flex-shrink: 0;
+  background: none; border: 1px solid #2e3d4f; color: #4a6070; font-size: 18px;
+  width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; margin-top: 4px;
+  transition: border-color .15s, color .15s; position: relative; flex-shrink: 0;
 }
 .settings-btn:hover { border-color: #3aafa0; color: #7ed6c8; }
-.settings-btn .key-dot {
-  position: absolute;
-  top: 4px; right: 4px;
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: #e74c3c;
-  display: none;
-}
+.settings-btn .key-dot { position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; border-radius: 50%; background: #e74c3c; display: none; }
 .settings-btn.no-key .key-dot { display: block; }
+.sub { font-size: 11px; color: #4a6070; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 2rem; }
 
-.sub {
-  font-size: 11px;
-  color: #4a6070;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-}
-
-/* ---- Settings modal ---- */
-.modal-overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.65);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  padding: 1.25rem;
-}
+/* modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 100; align-items: center; justify-content: center; padding: 1.25rem; }
 .modal-overlay.open { display: flex; }
-.modal {
-  background: #13212f;
-  border: 1px solid #2e4a6a;
-  border-radius: 16px;
-  padding: 1.75rem 1.5rem;
-  width: 100%; max-width: 380px;
-}
-.modal h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px; letter-spacing: 2px;
-  color: #fff; margin-bottom: 6px;
-}
+.modal { background: #13212f; border: 1px solid #2e4a6a; border-radius: 16px; padding: 1.75rem 1.5rem; width: 100%; max-width: 380px; }
+.modal h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; color: #fff; margin-bottom: 6px; }
 .modal p { font-size: 12px; color: #4a7080; margin-bottom: 1.25rem; line-height: 1.7; }
 .modal p a { color: #3aafa0; }
 .key-input-wrap { position: relative; margin-bottom: 1rem; }
-.key-input {
-  width: 100%;
-  background: #0d1b26;
-  border: 1px solid #2e3d4f;
-  border-radius: 10px;
-  color: #dce8f0;
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  padding: 12px 40px 12px 14px;
-  outline: none;
-  transition: border-color .15s;
-}
+.key-input { width: 100%; background: #0d1b26; border: 1px solid #2e3d4f; border-radius: 10px; color: #dce8f0; font-family: 'DM Mono', monospace; font-size: 12px; padding: 12px 40px 12px 14px; outline: none; transition: border-color .15s; }
 .key-input:focus { border-color: #3aafa0; }
-.key-toggle {
-  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; color: #4a7080; cursor: pointer; font-size: 16px;
-  padding: 2px;
-}
+.key-toggle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #4a7080; cursor: pointer; font-size: 16px; padding: 2px; }
 .modal-actions { display: flex; gap: 8px; }
-.save-btn {
-  flex: 1; padding: 12px;
-  background: #7ed6c8; color: #0a3d36;
-  border: none; border-radius: 10px;
-  font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
-  cursor: pointer; transition: background .15s;
-}
+.save-btn { flex: 1; padding: 12px; background: #7ed6c8; color: #0a3d36; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background .15s; }
 .save-btn:hover { background: #5ec4b4; }
-.clear-btn {
-  padding: 12px 16px;
-  background: none;
-  border: 1px solid #2e3d4f;
-  color: #4a6070;
-  border-radius: 10px;
-  font-size: 13px; font-family: 'DM Sans', sans-serif;
-  cursor: pointer; transition: border-color .15s, color .15s;
-}
+.clear-btn { padding: 12px 16px; background: none; border: 1px solid #2e3d4f; color: #4a6070; border-radius: 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: border-color .15s, color .15s; }
 .clear-btn:hover { border-color: #e74c3c; color: #e74c3c; }
-.modal-close {
-  width: 100%; margin-top: 10px;
-  background: none; border: none;
-  color: #2e3d4f; font-size: 12px;
-  cursor: pointer; padding: 6px;
-}
+.modal-close { width: 100%; margin-top: 10px; background: none; border: none; color: #2e3d4f; font-size: 12px; cursor: pointer; padding: 6px; }
 .modal-close:hover { color: #4a6070; }
-.key-status-bar {
-  font-size: 11px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  display: none;
-}
-.key-status-bar.set {
-  display: block;
-  background: #0d2e28;
-  color: #3aafa0;
-  border: 1px solid #1a4a3a;
-}
-.key-status-bar.unset {
-  display: block;
-  background: #2e1a1a;
-  color: #e74c3c;
-  border: 1px solid #4a1a1a;
-}
+.key-status-bar { font-size: 11px; padding: 6px 10px; border-radius: 6px; margin-bottom: 1rem; display: none; }
+.key-status-bar.set   { display: block; background: #0d2e28; color: #3aafa0; border: 1px solid #1a4a3a; }
+.key-status-bar.unset { display: block; background: #2e1a1a; color: #e74c3c; border: 1px solid #4a1a1a; }
 
-/* ---- Upload ---- */
-.upload-box {
-  border: 1.5px dashed #2e3d4f;
-  border-radius: 14px;
-  padding: 2.5rem 1rem;
-  text-align: center;
-  cursor: pointer;
-  position: relative;
-  background: #13212f;
-  transition: background .15s;
-}
+/* upload */
+.upload-box { border: 1.5px dashed #2e3d4f; border-radius: 14px; padding: 2.5rem 1rem; text-align: center; cursor: pointer; position: relative; background: #13212f; transition: background .15s; }
 .upload-box:hover { background: #1a2d40; }
-.upload-box input {
-  position: absolute; inset: 0; opacity: 0;
-  cursor: pointer; width: 100%; height: 100%;
-}
+.upload-box input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
 .upload-icon { font-size: 36px; margin-bottom: 10px; }
 .upload-label { font-size: 15px; color: #7a8fa0; }
 .upload-label strong { color: #c8d8e8; }
 .upload-hint { font-size: 12px; color: #3a5060; margin-top: 6px; }
 
 #preview-wrap { display: none; margin: 1rem 0; position: relative; }
-#preview {
-  width: 100%; max-height: 280px; object-fit: contain;
-  border-radius: 12px; border: 1px solid #2e3d4f;
-  display: block;
-}
-.change-btn {
-  position: absolute; top: 8px; right: 8px;
-  background: rgba(13,27,38,.85);
-  border: 1px solid #2e4a6a;
-  color: #7ed6c8;
-  font-size: 12px;
-  padding: 5px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-}
+#preview { width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; border: 1px solid #2e3d4f; display: block; }
+.change-btn { position: absolute; top: 8px; right: 8px; background: rgba(13,27,38,.85); border: 1px solid #2e4a6a; color: #7ed6c8; font-size: 12px; padding: 5px 10px; border-radius: 8px; cursor: pointer; }
 
-.analyze-btn {
-  width: 100%; padding: 15px;
-  font-size: 16px; font-weight: 500; font-family: 'DM Sans', sans-serif;
-  border: none;
-  border-radius: 12px;
-  background: #7ed6c8;
-  color: #0a3d36;
-  cursor: pointer;
-  transition: background .15s, transform .1s;
-  margin-top: .75rem;
-  letter-spacing: .5px;
-}
+.analyze-btn { width: 100%; padding: 15px; font-size: 16px; font-weight: 500; font-family: 'DM Sans', sans-serif; border: none; border-radius: 12px; background: #7ed6c8; color: #0a3d36; cursor: pointer; transition: background .15s, transform .1s; margin-top: .75rem; letter-spacing: .5px; }
 .analyze-btn:hover { background: #5ec4b4; }
 .analyze-btn:active { transform: scale(.97); }
 .analyze-btn:disabled { background: #1e3040; color: #3a5060; cursor: not-allowed; }
 
-.status {
-  font-size: 13px; color: #4a7080;
-  text-align: center; padding: 10px 0; min-height: 24px;
-}
+.status { font-size: 13px; color: #4a7080; text-align: center; padding: 10px 0; min-height: 24px; }
 .err { color: #e74c3c; }
 .ok  { color: #7ed6c8; }
 
-/* ---- Results ---- */
+/* results */
 .result-section { display: none; }
-.chips-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: 1.25rem 0 1rem;
-}
-.chip-card {
-  background: #13212f;
-  border: 1px solid #1e3040;
-  border-radius: 12px;
-  padding: 14px 8px;
-  text-align: center;
-}
-.chip-circle {
-  width: 52px; height: 52px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Bebas Neue', sans-serif; font-size: 18px;
-  margin: 0 auto 10px;
-  border: 3px solid;
-}
+.chips-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 1.25rem 0 1rem; }
+.chip-card { background: #13212f; border: 1px solid #1e3040; border-radius: 12px; padding: 14px 8px; text-align: center; }
+.chip-circle { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 18px; margin: 0 auto 10px; border: 3px solid; }
 .chip-5   { background: #c0392b; color: #fff;    border-color: #7b241c; }
 .chip-10  { background: #7ed6c8; color: #0a3d36; border-color: #3aafa0; }
 .chip-100 { background: #3a3a3a; color: #b0b0b0; border-color: #1a1a1a; }
 .chip-name  { font-size: 11px; color: #4a6070; margin-bottom: 5px; }
-.chip-count { font-family: 'DM Mono', monospace; font-size: 26px; font-weight: 500; color: #dce8f0; margin-bottom: 4px; }
-.chip-sub   { font-size: 11px; color: #3aafa0; }
+.chip-count { font-family: 'DM Mono', monospace; font-size: 26px; font-weight: 500; color: #dce8f0; margin-bottom: 6px; }
+.chip-sub   { font-size: 11px; color: #3aafa0; margin-bottom: 8px; }
+.adj-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.adj-btn { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #2e4a6a; background: #0d1b26; color: #7ed6c8; font-size: 18px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .1s; flex-shrink: 0; user-select: none; }
+.adj-btn:active { background: #1a3a50; }
 
-.result-box {
-  background: #13212f;
-  border: 1px solid #2e4a6a;
-  border-radius: 14px;
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
+.result-box { background: #13212f; border: 1px solid #2e4a6a; border-radius: 14px; padding: 1.25rem 1.5rem; display: flex; align-items: baseline; justify-content: space-between; margin-bottom: .75rem; }
 .result-label { font-size: 12px; color: #4a6070; letter-spacing: 1px; text-transform: uppercase; }
 .result-num   { font-family: 'Bebas Neue', sans-serif; font-size: 60px; color: #7ed6c8; letter-spacing: 2px; }
 
-.reset-btn {
-  width: 100%;
-  background: none;
-  border: 1px solid #1e3040;
-  color: #4a6070;
-  font-size: 13px;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: border-color .15s, color .15s;
-}
+.save-result-btn { width: 100%; padding: 12px; background: #1a3040; border: 1px solid #2e4a6a; color: #7ed6c8; font-size: 14px; font-family: 'DM Sans', sans-serif; border-radius: 10px; cursor: pointer; transition: background .15s; margin-bottom: .75rem; }
+.save-result-btn:hover { background: #243d50; }
+
+.reset-btn { width: 100%; background: none; border: 1px solid #1e3040; color: #4a6070; font-size: 13px; padding: 10px; border-radius: 10px; cursor: pointer; transition: border-color .15s, color .15s; }
 .reset-btn:hover { border-color: #2e4a6a; color: #7a9aaa; }
+
+/* history */
+.history-section { margin-top: 2rem; }
+.history-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
+.history-title { font-size: 11px; color: #4a6070; letter-spacing: 1.5px; text-transform: uppercase; }
+.history-clear { background: none; border: none; color: #3a5060; font-size: 11px; cursor: pointer; padding: 2px 6px; }
+.history-clear:hover { color: #e74c3c; }
+.history-list { display: flex; flex-direction: column; gap: 8px; }
+.history-item {
+  background: #13212f; border: 1px solid #1e3040; border-radius: 10px;
+  padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;
+}
+.history-chips { font-size: 12px; color: #4a6070; }
+.history-chips span { margin-right: 8px; }
+.history-total { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #7ed6c8; letter-spacing: 1px; }
+.history-time { font-size: 10px; color: #2e3d4f; margin-top: 2px; }
+.history-empty { font-size: 12px; color: #2e3d4f; text-align: center; padding: 1rem 0; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="title-row">
     <h1>STACK COUNTER</h1>
-    <button class="settings-btn no-key" id="settings-btn" title="APIキー設定">
-      ⚙
-      <span class="key-dot"></span>
-    </button>
+    <button class="settings-btn no-key" id="settings-btn" title="APIキー設定">⚙<span class="key-dot"></span></button>
   </div>
   <div class="sub">EPT Chip · 5 / 10 / 100</div>
 
@@ -285,11 +121,7 @@ h1 {
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal">
       <h2>API KEY 設定</h2>
-      <p>
-        Anthropic APIキーをブラウザに保存します。<br>
-        キーはこのデバイスのみに保存され、外部に送信されません。<br>
-        取得: <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>
-      </p>
+      <p>Anthropic APIキーをブラウザに保存します。<br>キーはこのデバイスのみに保存され、外部に送信されません。<br>取得: <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
       <div id="key-status-bar" class="key-status-bar"></div>
       <div class="key-input-wrap">
         <input type="password" class="key-input" id="key-input" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false">
@@ -316,7 +148,6 @@ h1 {
   </div>
 
   <div class="status" id="status"></div>
-
   <button class="analyze-btn" id="analyze-btn" disabled>チップを解析する</button>
 
   <div class="result-section" id="result-section">
@@ -326,34 +157,56 @@ h1 {
         <div class="chip-name">赤チップ</div>
         <div class="chip-count" id="cnt5">0</div>
         <div class="chip-sub" id="sub5">0 pt</div>
+        <div class="adj-row">
+          <button class="adj-btn" data-chip="5" data-d="-1">−</button>
+          <button class="adj-btn" data-chip="5" data-d="+1">+</button>
+        </div>
       </div>
       <div class="chip-card">
         <div class="chip-circle chip-10">10</div>
         <div class="chip-name">水色チップ</div>
         <div class="chip-count" id="cnt10">0</div>
         <div class="chip-sub" id="sub10">0 pt</div>
+        <div class="adj-row">
+          <button class="adj-btn" data-chip="10" data-d="-1">−</button>
+          <button class="adj-btn" data-chip="10" data-d="+1">+</button>
+        </div>
       </div>
       <div class="chip-card">
         <div class="chip-circle chip-100">100</div>
         <div class="chip-name">黒チップ</div>
         <div class="chip-count" id="cnt100">0</div>
         <div class="chip-sub" id="sub100">0 pt</div>
+        <div class="adj-row">
+          <button class="adj-btn" data-chip="100" data-d="-1">−</button>
+          <button class="adj-btn" data-chip="100" data-d="+1">+</button>
+        </div>
       </div>
     </div>
-
     <div class="result-box">
       <div class="result-label">TOTAL STACK</div>
       <div class="result-num" id="total">0</div>
     </div>
-
+    <button class="save-result-btn" id="save-result-btn">✓ この結果を保存して学習に使う</button>
     <button class="reset-btn" id="reset-btn">リセット</button>
+  </div>
+
+  <!-- History -->
+  <div class="history-section" id="history-section">
+    <div class="history-header">
+      <div class="history-title">履歴</div>
+      <button class="history-clear" id="history-clear">全削除</button>
+    </div>
+    <div class="history-list" id="history-list"></div>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY = 'ept_api_key';
+const STORAGE_KEY   = 'ept_api_key';
+const HISTORY_KEY   = 'ept_history';
+const MAX_HISTORY   = 20;
+const MAX_FEW_SHOT  = 5;   // プロンプトに注入する履歴件数
 
-// --- DOM refs ---
 const fileInput     = document.getElementById('file-input');
 const preview       = document.getElementById('preview');
 const previewWrap   = document.getElementById('preview-wrap');
@@ -371,138 +224,182 @@ const saveKeyBtn    = document.getElementById('save-key-btn');
 const clearKeyBtn   = document.getElementById('clear-key-btn');
 const modalClose    = document.getElementById('modal-close');
 const keyStatusBar  = document.getElementById('key-status-bar');
+const saveResultBtn = document.getElementById('save-result-btn');
+const historyList   = document.getElementById('history-list');
+const historyClear  = document.getElementById('history-clear');
 
 let imageBase64 = null;
 let imageMime   = 'image/jpeg';
+let counts = { 5: 0, 10: 0, 100: 0 };
 
-// --- API key helpers ---
-function getApiKey() {
-  return localStorage.getItem(STORAGE_KEY) || '';
-}
-
-function updateSettingsIndicator() {
-  const hasKey = !!getApiKey();
-  settingsBtn.classList.toggle('no-key', !hasKey);
-}
-
+// ===== API key =====
+const getApiKey = () => localStorage.getItem(STORAGE_KEY) || '';
+function updateSettingsIndicator() { settingsBtn.classList.toggle('no-key', !getApiKey()); }
 function openModal() {
-  const current = getApiKey();
-  keyInput.value = current;
-  keyInput.type = 'password';
-  keyToggle.textContent = '👁';
-
-  if (current) {
-    keyStatusBar.className = 'key-status-bar set';
-    keyStatusBar.textContent = '✓ APIキーが保存されています（末尾: …' + current.slice(-6) + '）';
-  } else {
-    keyStatusBar.className = 'key-status-bar unset';
-    keyStatusBar.textContent = '⚠ APIキーが未設定です';
-  }
-
-  modalOverlay.classList.add('open');
-  keyInput.focus();
+  const cur = getApiKey();
+  keyInput.value = cur; keyInput.type = 'password'; keyToggle.textContent = '👁';
+  keyStatusBar.className = cur ? 'key-status-bar set' : 'key-status-bar unset';
+  keyStatusBar.textContent = cur ? `✓ 保存済み（末尾: …${cur.slice(-6)}）` : '⚠ 未設定';
+  modalOverlay.classList.add('open'); keyInput.focus();
 }
-
-function closeModal() {
-  modalOverlay.classList.remove('open');
-}
-
+function closeModal() { modalOverlay.classList.remove('open'); }
 settingsBtn.addEventListener('click', openModal);
 modalClose.addEventListener('click', closeModal);
 modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
-
 keyToggle.addEventListener('click', () => {
-  const isHidden = keyInput.type === 'password';
-  keyInput.type = isHidden ? 'text' : 'password';
-  keyToggle.textContent = isHidden ? '🙈' : '👁';
+  const h = keyInput.type === 'password';
+  keyInput.type = h ? 'text' : 'password'; keyToggle.textContent = h ? '🙈' : '👁';
 });
-
 saveKeyBtn.addEventListener('click', () => {
   const val = keyInput.value.trim();
   if (!val.startsWith('sk-ant-')) {
     keyStatusBar.className = 'key-status-bar unset';
-    keyStatusBar.textContent = '⚠ 有効なAnthropicキー（sk-ant-で始まる）を入力してください';
-    keyStatusBar.style.display = 'block';
-    return;
+    keyStatusBar.textContent = '⚠ sk-ant- で始まるキーを入力してください';
+    keyStatusBar.style.display = 'block'; return;
   }
-  localStorage.setItem(STORAGE_KEY, val);
-  updateSettingsIndicator();
+  localStorage.setItem(STORAGE_KEY, val); updateSettingsIndicator();
   keyStatusBar.className = 'key-status-bar set';
-  keyStatusBar.textContent = '✓ 保存しました（末尾: …' + val.slice(-6) + '）';
+  keyStatusBar.textContent = `✓ 保存しました（末尾: …${val.slice(-6)}）`;
   setTimeout(closeModal, 800);
 });
-
 clearKeyBtn.addEventListener('click', () => {
-  localStorage.removeItem(STORAGE_KEY);
-  keyInput.value = '';
-  updateSettingsIndicator();
-  keyStatusBar.className = 'key-status-bar unset';
-  keyStatusBar.textContent = '🗑 APIキーを削除しました';
+  localStorage.removeItem(STORAGE_KEY); keyInput.value = ''; updateSettingsIndicator();
+  keyStatusBar.className = 'key-status-bar unset'; keyStatusBar.textContent = '🗑 削除しました';
 });
 
-// --- Image loading ---
+// ===== History =====
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+  catch { return []; }
+}
+function saveHistory(h) { localStorage.setItem(HISTORY_KEY, JSON.stringify(h)); }
+
+function renderHistory() {
+  const h = loadHistory();
+  if (h.length === 0) {
+    historyList.innerHTML = '<div class="history-empty">まだ履歴がありません</div>'; return;
+  }
+  historyList.innerHTML = h.slice().reverse().map(item => {
+    const d = new Date(item.ts);
+    const timeStr = `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const chips = [
+      item.chip5  ? `<span>🔴×${item.chip5}</span>`  : '',
+      item.chip10 ? `<span>🔵×${item.chip10}</span>` : '',
+      item.chip100? `<span>⚫×${item.chip100}</span>`: '',
+    ].filter(Boolean).join('');
+    return `<div class="history-item">
+      <div>
+        <div class="history-chips">${chips || '—'}</div>
+        <div class="history-time">${timeStr}</div>
+      </div>
+      <div class="history-total">${item.total.toLocaleString()}</div>
+    </div>`;
+  }).join('');
+}
+
+// 履歴からfew-shotヒントを生成
+function buildFewShotHint() {
+  const h = loadHistory();
+  if (h.length === 0) return '';
+  const recent = h.slice(-MAX_FEW_SHOT);
+  const lines = recent.map(item =>
+    `  - 赤×${item.chip5} 水色×${item.chip10} 黒×${item.chip100} → 合計${item.total}pt`
+  ).join('\n');
+  const avgTotal = Math.round(recent.reduce((s, x) => s + x.total, 0) / recent.length);
+  return `\n【過去の計測履歴（参考）】\n${lines}\n平均スタック: ${avgTotal}pt\nこのパターンを参考に今回も正確に数えること。\n`;
+}
+
+saveResultBtn.addEventListener('click', () => {
+  const h = loadHistory();
+  h.push({ ts: Date.now(), chip5: counts[5], chip10: counts[10], chip100: counts[100], total: counts[5]*5 + counts[10]*10 + counts[100]*100 });
+  if (h.length > MAX_HISTORY) h.splice(0, h.length - MAX_HISTORY);
+  saveHistory(h); renderHistory();
+  saveResultBtn.textContent = '✓ 保存しました';
+  saveResultBtn.disabled = true;
+  setTimeout(() => { saveResultBtn.textContent = '✓ この結果を保存して学習に使う'; saveResultBtn.disabled = false; }, 1500);
+});
+
+historyClear.addEventListener('click', () => {
+  if (!confirm('履歴を全削除しますか？')) return;
+  localStorage.removeItem(HISTORY_KEY); renderHistory();
+});
+
+// ===== Image =====
 function loadFile(file) {
   if (!file) return;
   imageMime = file.type || 'image/jpeg';
   const reader = new FileReader();
   reader.onload = ev => {
-    const dataUrl = ev.target.result;
-    preview.src = dataUrl;
-    previewWrap.style.display = 'block';
-    uploadBox.style.display = 'none';
-    imageBase64 = dataUrl.split(',')[1];
+    preview.src = ev.target.result;
+    previewWrap.style.display = 'block'; uploadBox.style.display = 'none';
+    imageBase64 = ev.target.result.split(',')[1];
     analyzeBtn.disabled = false;
-    status.textContent = '画像を読み込みました';
-    status.className = 'status ok';
+    status.textContent = '画像を読み込みました'; status.className = 'status ok';
     resultSection.style.display = 'none';
   };
   reader.readAsDataURL(file);
 }
-
 fileInput.addEventListener('change', e => loadFile(e.target.files[0]));
 changeBtn.addEventListener('click', () => { fileInput.value = ''; fileInput.click(); });
 
-// --- Analyze ---
+// ===== Count display =====
+function renderCounts() {
+  const c5 = counts[5], c10 = counts[10], c100 = counts[100];
+  document.getElementById('cnt5').textContent   = c5;
+  document.getElementById('sub5').textContent   = `${c5*5} pt`;
+  document.getElementById('cnt10').textContent  = c10;
+  document.getElementById('sub10').textContent  = `${c10*10} pt`;
+  document.getElementById('cnt100').textContent = c100;
+  document.getElementById('sub100').textContent = `${c100*100} pt`;
+  document.getElementById('total').textContent  = (c5*5 + c10*10 + c100*100).toLocaleString();
+}
+document.querySelectorAll('.adj-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const chip = parseInt(btn.dataset.chip);
+    counts[chip] = Math.max(0, counts[chip] + parseInt(btn.dataset.d));
+    renderCounts();
+  });
+});
+
+// ===== Analyze =====
 analyzeBtn.addEventListener('click', async () => {
   if (!imageBase64) return;
-
   const apiKey = getApiKey();
   if (!apiKey) {
-    status.textContent = 'APIキーが未設定です（⚙ ボタンから設定してください）';
-    status.className = 'status err';
-    openModal();
-    return;
+    status.textContent = 'APIキーが未設定です（⚙ ボタンから設定）';
+    status.className = 'status err'; openModal(); return;
   }
 
-  analyzeBtn.disabled = true;
-  analyzeBtn.textContent = '解析中...';
-  status.textContent = 'AIがチップを数えています...';
-  status.className = 'status';
+  analyzeBtn.disabled = true; analyzeBtn.textContent = '解析中...';
+  status.textContent = 'AIがチップを数えています...'; status.className = 'status';
 
-  const prompt = `この画像にはEPT（PokerStars European Poker Tour）のポーカーチップが写っています。
-チップは3種類です：
-- 赤いチップ → 5点
-- 水色（ライトブルー/ターコイズ）のチップ → 10点
-- ダークグレー/黒いチップ → 100点
+  const fewShot = buildFewShotHint();
 
-【画像の見方】
-チップは横倒しにして積み重ねられており、側面（エッジ）が見えています。
-1本のスタックの中に、チップ1枚ごとの細い縁（ストライプライン）が連続して並んで見えます。
-この「ストライプラインの数」がそのスタックのチップ枚数です。1本のスタック ≠ 1枚です。
+  const prompt = `この画像はEPTポーカーチップを横倒しに積んだものです。
+${fewShot}
+【チップの色と点数】
+- 赤いライン → 5点チップ1枚
+- 水色/ターコイズのライン → 10点チップ1枚
+- 黒/ダークグレーのライン → 100点チップ1枚
 
-【カウント手順 - 必ず守ること】
-STEP 1: 画像内に何本のスタック（チップの束）があるか確認する
-STEP 2: 各スタックの側面に見えるストライプライン（チップの縁）を1本ずつ数える。これが枚数
-STEP 3: 全スタックの枚数を合計し、チップの色ごとに集計する
+【重要：見え方について】
+チップは円柱を横倒しにした状態で積まれており、側面（エッジ）が見えています。
+スタック1本 = チップ多数。側面に見える細いライン1本 = チップ1枚です。
 
-【重要注意事項】
-- 1本のスタック全体を「1枚」と数えてはいけない
-- 側面に見えるライン（縁）の数を数えること。通常1スタック約20枚分のラインが見える
-- スタックが4本と5本では合計が大きく異なる。本数を正確に確認すること
-- 推測・丸め禁止。見えているラインだけを数えること
+【カウント手順】
+① 画像内のスタック本数を確認する（4本と5本は大きく異なる）
+② 各スタックについて、側面の細いライン（チップの縁）を色ごとに上から順に数える
+③ 全スタック分を色ごとに合計する
 
-必ずJSON形式のみで返答してください（説明文・思考過程は一切不要）：
-{"chip5": 数字, "chip10": 数字, "chip100": 数字}`;
+【出力形式】スタックごとの内訳を含むJSONのみ返答：
+{
+  "stacks": [
+    {"chip5": 数字, "chip10": 数字, "chip100": 数字}
+  ],
+  "chip5": 合計,
+  "chip10": 合計,
+  "chip100": 合計
+}`;
 
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
@@ -514,8 +411,9 @@ STEP 3: 全スタックの枚数を合計し、チップの色ごとに集計す
         'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
-        model: 'claude-opus-4-6',
-        max_tokens: 256,
+        model: 'claude-opus-4-5',
+        max_tokens: 1024,
+        thinking: { type: 'enabled', budget_tokens: 800 },
         messages: [{
           role: 'user',
           content: [
@@ -529,26 +427,20 @@ STEP 3: 全スタックの枚数を合計し、チップの色ごとに集計す
     const data = await resp.json();
     if (data.error) throw new Error(data.error.message);
 
-    const text = data.content.map(b => b.text || '').join('');
-    const match = text.match(/\{[^}]+\}/);
+    const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const match = text.match(/\{[\s\S]*\}/);
     if (!match) throw new Error('チップを認識できませんでした');
 
     const result = JSON.parse(match[0]);
-    const c5   = Math.round(result.chip5   || 0);
-    const c10  = Math.round(result.chip10  || 0);
-    const c100 = Math.round(result.chip100 || 0);
-    const total = c5*5 + c10*10 + c100*100;
-
-    document.getElementById('cnt5').textContent   = c5;
-    document.getElementById('sub5').textContent   = `${c5 * 5} pt`;
-    document.getElementById('cnt10').textContent  = c10;
-    document.getElementById('sub10').textContent  = `${c10 * 10} pt`;
-    document.getElementById('cnt100').textContent = c100;
-    document.getElementById('sub100').textContent = `${c100 * 100} pt`;
-    document.getElementById('total').textContent  = total.toLocaleString();
+    counts[5]   = Math.round(result.chip5   || 0);
+    counts[10]  = Math.round(result.chip10  || 0);
+    counts[100] = Math.round(result.chip100 || 0);
+    renderCounts();
 
     resultSection.style.display = 'block';
-    status.textContent = '解析完了';
+    saveResultBtn.textContent = '✓ この結果を保存して学習に使う';
+    saveResultBtn.disabled = false;
+    status.textContent = 'ズレがあれば ＋／－ で修正 → 保存';
     status.className = 'status ok';
     analyzeBtn.textContent = 'もう一度解析する';
     analyzeBtn.disabled = false;
@@ -561,22 +453,19 @@ STEP 3: 全スタックの枚数を合計し、チップの色ごとに集計す
   }
 });
 
-// --- Reset ---
+// ===== Reset =====
 resetBtn.addEventListener('click', () => {
-  fileInput.value = '';
-  preview.src = '';
-  previewWrap.style.display = 'none';
-  uploadBox.style.display = 'block';
-  imageBase64 = null;
-  analyzeBtn.disabled = true;
-  analyzeBtn.textContent = 'チップを解析する';
-  status.textContent = '';
-  status.className = 'status';
+  fileInput.value = ''; preview.src = '';
+  previewWrap.style.display = 'none'; uploadBox.style.display = 'block';
+  imageBase64 = null; counts = {5:0, 10:0, 100:0};
+  analyzeBtn.disabled = true; analyzeBtn.textContent = 'チップを解析する';
+  status.textContent = ''; status.className = 'status';
   resultSection.style.display = 'none';
 });
 
-// --- Init ---
+// ===== Init =====
 updateSettingsIndicator();
+renderHistory();
 if (!getApiKey()) {
   status.textContent = '⚙ ボタンからAPIキーを設定してください';
   status.className = 'status err';
